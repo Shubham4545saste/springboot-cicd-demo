@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 
+
     @RestController
     public class PaymentController {
 
         @GetMapping("/payment")
         public String processPayment() {
             return "Payment completed using UPI";
+
         }
     }
 
