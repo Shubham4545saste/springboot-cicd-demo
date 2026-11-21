@@ -20,3 +20,10 @@ steps:
     mvn -version
     mvn clean package
   displayName: 'Build Spring Boot Application'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Spring Boot JAR'
+  inputs:
+    targetPath: '$(System.DefaultWorkingDirectory)/target'
+    artifact: 'springboot-jar'
+    publishLocation: 'pipeline'
