@@ -5,17 +5,17 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: |
-    JAVA25_HOME=$(find /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk -maxdepth 2 -type d -name '25*' 2>/dev/null | head -n 1)
-    if [ -z "$JAVA25_HOME" ]; then
-      echo "Java 25 not found on hosted agent"
-      exit 1
-    fi
-    echo "##vso[task.setvariable variable=JAVA_HOME]$JAVA25_HOME"
-    echo "##vso[task.prependpath]$JAVA25_HOME/bin"
-  displayName: 'Configure Java 25'
+- bash: |
+    JAVA_BIN=$(readlink -f "$(command -v java)")
+    JDK_HOME=$(dirname "$(dirname "$JAVA_BIN")")
 
-- script: |
+    echo "JDK location: $JDK_HOME"
+
+    echo "##vso[task.setvariable variable=JAVA_HOME]$JDK_HOME"
+    echo "##vso[task.prependpath]$JDK_HOME/bin"
+  displayName: 'Configure JAVA_HOME'
+
+- bash: |
     java -version
     mvn -version
     mvn clean package
